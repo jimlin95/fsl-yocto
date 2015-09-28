@@ -1,0 +1,40 @@
+[gui]
+[user]
+	name = Jim Lin
+	email = jim_lin@quantatw.com
+[color]
+	diff = auto
+	status = auto
+	branch = auto
+	interactive = auto
+[alias]
+	st = status
+	srb = svn rebase
+	ci = commit -a
+	co = checkout
+	rb = rebase
+	st1 = status
+[diff]
+#	external = /home/jim/bin/git-meld
+[difftool]
+	prompt = false
+[gc]
+	auto = 1
+[http]
+    sslVerify = false
+#    proxy=http://95042401:D9kminq91206@proxy:80
+[core]
+    #gitProxy = /home/jim/bin/git-proxy.sh 
+[merge]
+	tool = meldmerge
+    prompt = false
+[branch] 
+    autosetuprebase=always
+
+[core]
+	editor = vim
+[mergetool "meldmerge"]
+	trustExitCode = true
+	cmd = "meld \"$LOCAL\" \"$MERGED\" \"$REMOTE\""
+[push]
+	default = matching
