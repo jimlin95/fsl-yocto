@@ -36,7 +36,6 @@ RUN apt-get install -y python-gobject python-gtk2
 RUN curl http://commondatastorage.googleapis.com/git-repo-downloads/repo > /usr/local/bin/repo
 RUN chmod a+x /usr/local/bin/repo
 
-ADD .gitconfig /home/work/
 # Additional host packages required by poky/scripts/wic
 # TODO: Understand how to build them using the -native recipes
 #RUN apt-get install -y parted dosfstools mtools syslinux
@@ -50,6 +49,7 @@ RUN adduser work sudo
 RUN echo work:work | chpasswd
 RUN mkdir -p /src
 
+ADD .gitconfig /home/work/
 # TODO: Run as user "build" once Docker supports user-level volumes
 #RUN su -c "mkdir -p ~/yocto" build
 #RUN su -c "cd ~ && git clone git://git.yoctoproject.org/poky" build
