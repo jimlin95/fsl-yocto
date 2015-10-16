@@ -14,17 +14,16 @@ RUN apt-get update
 RUN apt-get -y upgrade
 
 # Install packages we cannot leave without...
-RUN apt-get install -y git openssh-server
-#RUN apt-get install -y mc
-#RUN apt-get install -y openssh-server
-# Make sure the directory exists, otherwise sshd will not start
+# Install a basic SSH server
+RUN apt-get install -y openssh-server
+RUN sed -i 's|session    required     pam_loginuid.so|session    optional     pam_loginuid.so|g' /etc/pam.d/sshd
 RUN mkdir -p /var/run/sshd
-#RUN apt-get install -y screen
 
 # Install the following utilities (required by poky)
 RUN apt-get install -y gawk wget git-core diffstat unzip texinfo gcc-multilib \
-    build-essential chrpath libsdl1.2-dev xterm
+    build-essential chrpath libsdl1.2-dev xterm git 
 
+#
 # Install the following utilities (required later)
 RUN apt-get install -y curl
 
@@ -36,9 +35,6 @@ RUN apt-get install -y python-gobject python-gtk2
 RUN curl http://commondatastorage.googleapis.com/git-repo-downloads/repo > /usr/local/bin/repo
 RUN chmod a+x /usr/local/bin/repo
 
-# Additional host packages required by poky/scripts/wic
-# TODO: Understand how to build them using the -native recipes
-#RUN apt-get install -y parted dosfstools mtools syslinux
 
 # NOTE: Uncomment if user "work" is not already created inside the base image
 ## Create non-root user that will perform the work of the images
@@ -50,10 +46,6 @@ RUN echo work:work | chpasswd
 RUN mkdir -p /src
 
 ADD .gitconfig /home/work/
-# TODO: Run as user "build" once Docker supports user-level volumes
-#RUN su -c "mkdir -p ~/yocto" build
-#RUN su -c "cd ~ && git clone git://git.yoctoproject.org/poky" build
-#ENTRYPOINT ["/bin/su", "-l", "build"]
 
 # For the time being, let us install and run poky as root
 ENTRYPOINT ["/bin/bash"]
